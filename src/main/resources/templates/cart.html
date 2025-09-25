@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8"/>
+  <title>Cart - Web Shop</title>
+</head>
+<body>
+  <!-- Header fragment -->
+  <th:block th:replace="fragments/_header :: header"></th:block>
+
+  <main>
+    <h1>Your Cart</h1>
+
+    <div th:if="${#maps.isEmpty(cart)}">
+      <p>Your cart is empty.</p>
+    </div>
+
+    <div th:unless="${#maps.isEmpty(cart)}">
+      <table border="1" cellpadding="5" cellspacing="0">
+        <thead>
+          <tr>
+            <th>Product</th>
+            <th>Qty</th>
+            <th>Price</th>
+            <th>Total</th>
+          </tr>
+        </thead>
+        <tbody>
+            <tr th:each="item : ${cart.values()}">
+                <td th:text="${item.name}">Product Name</td>
+                <td th:text="${item.qty}">1</td>
+                <td th:text="${item.price}">0.00</td>
+                <td th:text="${item.price * item.qty}">0.00</td>
+            </tr>
+        </tbody>
+
+      </table>
+
+      <p>
+        <strong>Grand Total:</strong>
+        <span th:text="${#numbers.formatDecimal(cart.values().![product.price * qty].stream().reduce(0, (a,b)->a+b), 1, 2)}">0.00</span>
+      </p>
+
+      <form th:action="@{/cart/clear}" method="post">
+        <button type="submit">Clear Cart</button>
+      </form>
+    </div>
+  </main>
+
+  <!-- Footer fragment -->
+  <th:block th:replace="fragments/_footer :: footer"></th:block>
+</body>
+</html>

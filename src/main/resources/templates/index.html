@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8"/>
+  <title th:text="${title} ?: 'Web Shop'"></title>
+</head>
+<body>
+  <th:block th:replace="fragments/_header :: header"></th:block>
+
+  <main>
+    <h1>Products</h1>
+
+    <div th:if="${#lists.isEmpty(products)}">
+      <p>No products available.</p>
+    </div>
+
+    <div th:each="p : ${products}">
+      <h2 th:text="${p.name}">Product Name</h2>
+      <p>Price: <span th:text="${p.price}">0.00</span></p>
+
+      <form th:action="@{'/cart/add/' + ${p.id}}" method="post">
+        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+        <button type="submit">Add to Cart</button>
+      </form>
+
+    </div>
+  </main>
+
+
+  <th:block th:replace="fragments/_footer :: footer"></th:block>
+</body>
+</html>
+

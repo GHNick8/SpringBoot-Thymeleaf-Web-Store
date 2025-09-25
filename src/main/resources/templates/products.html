@@ -1,0 +1,11 @@
+<th:block th:replace="~{fragments/_layout :: body}">
+  <h2>All Products</h2>
+  <div class="grid">
+    <article th:each="p : ${page}">
+      <img th:src="${p.imageUrl}" alt=""/>
+      <h3 th:text="${p.name}"></h3>
+      <p th:text="${#numbers.formatDecimal(p.price,1,2)}"></p>
+      <a th:href="@{'/products/' + ${p.id}}">View</a>
+    </article>
+  </div>
+</th:block>
